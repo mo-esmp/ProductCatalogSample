@@ -5,7 +5,7 @@ namespace Product.Api.Domain.ProductCatalog
 {
     public class ProductPrice : Money
     {
-        public new static ProductPrice FromMoney(Money money)
+        public static ProductPrice FromMoney(Money money)
         {
             if (money.Amount <= 0)
                 throw new InvalidPriceDomainException("Product price must be higher than 0");

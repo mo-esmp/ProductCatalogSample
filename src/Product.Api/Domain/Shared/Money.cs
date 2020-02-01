@@ -1,9 +1,10 @@
 ﻿using Product.Api.Domain.Exceptions;
 using System;
+using System.Collections.Generic;
 
 namespace Product.Api.Domain.Shared
 {
-    public class Money
+    public class Money : IEquatable<Money>
     {
         protected Money()
         {
@@ -33,9 +34,9 @@ namespace Product.Api.Domain.Shared
             Currency = currency;
         }
 
-        public decimal Amount { get; internal set; }
+        public decimal Amount { get; protected set; }
 
-        public Currency Currency { get; internal set; }
+        public Currency Currency { get; protected set; }
 
         public Money Add(Money summand)
         {
@@ -60,5 +61,35 @@ namespace Product.Api.Domain.Shared
         public static Money operator -(Money minuend, Money subtrahend) => minuend.Subtract(subtrahend);
 
         public override string ToString() => $"{Currency.CurrencyCode} {Amount}";
+
+        public bool Equals(Money other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Amount == other.Amount && Equals(Currency, other.Currency);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Money)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Amount, Currency);
+        }
+
+        public static bool operator ==(Money value1, Money value2)
+        {
+            return EqualityComparer<Money>.Default.Equals(value1, value2);
+        }
+
+        public static bool operator !=(Money value1, Money value2)
+        {
+            return !(value1 == value2);
+        }
     }
 }

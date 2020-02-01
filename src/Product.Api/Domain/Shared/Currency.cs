@@ -14,6 +14,6 @@
     public enum CurrencyCode
     {
         Euro,
-        Dollar
+        Usd
     }
 }
