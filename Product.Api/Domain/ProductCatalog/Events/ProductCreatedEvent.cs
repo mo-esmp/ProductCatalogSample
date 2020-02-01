@@ -5,7 +5,7 @@ namespace Product.Api.Domain.ProductCatalog
 {
     public class ProductCreatedEvent : Event
     {
-        public ProductCreatedEvent(Guid id, string code, string name, Price price)
+        public ProductCreatedEvent(Guid id, string code, string name, Money price)
         {
             AggregateId = id;
             Code = code;
@@ -17,6 +17,6 @@ namespace Product.Api.Domain.ProductCatalog
 
         public string Name { get; }
 
-        public Price Price { get; }
+        public Money Price { get; }
     }
 }

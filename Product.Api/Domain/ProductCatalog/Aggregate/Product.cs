@@ -5,7 +5,7 @@ namespace Product.Api.Domain.ProductCatalog
 {
     public class Product : AggregateRoot<Guid>
     {
-        public Product(string code, string name, Price price)
+        public Product(string code, string name, Money price)
         {
             Apply(new ProductCreatedEvent(Guid.NewGuid(), code, name, price));
         }
@@ -14,7 +14,7 @@ namespace Product.Api.Domain.ProductCatalog
 
         public ProductName Name { get; private set; }
 
-        public Price Price { get; private set; }
+        public ProductPrice Price { get; private set; }
 
         public Photo Photo { get; private set; }
 
@@ -22,41 +22,9 @@ namespace Product.Api.Domain.ProductCatalog
 
         public void UpdateCode(string code) => Apply(new ProductCodeChangedEvent(Id, code));
 
-        public void UpdateText(string name) => Apply(new ProductNameChangedEvent(Id = Id, Name = name));
+        public void UpdateName(string name) => Apply(new ProductNameChangedEvent(Id, name));
 
-        public void UpdatePrice(Price price) =>
-            Apply(new Events.Events.ClassifiedAdPriceUpdated
-            {
-                Id = Id,
-                Price = price.Amount,
-                CurrencyCode = price.Currency.CurrencyCode
-            });
-
-        public void AddPicture(Uri pictureUri, PictureSize size)
-        {
-            Apply(new Events.Events.PictureAddedToAClassifiedAd
-            {
-                PictureId = new Guid(),
-                ClassifiedAdId = Id,
-                Url = pictureUri.ToString(),
-                Height = size.Height,
-                Width = size.Width,
-                Order = NewPictureOrder()
-            });
-
-            int NewPictureOrder() =>
-                Pictures.Any() ? Pictures.Max(x => x.Order) + 1 : 0;
-        }
-
-        public void ResizePicture(PictureId pictureId, PictureSize newSize)
-        {
-            var picture = FindPicture(pictureId);
-            if (picture == null)
-                throw new InvalidOperationException(
-                    "Cannot resize a picture that I don't have");
-
-            picture.Resize(newSize);
-        }
+        public void UpdatePrice(Money price) => Apply(new ProductPriceChangedEvent(Id, price));
 
         protected override void When(object @event)
         {
@@ -73,6 +41,10 @@ namespace Product.Api.Domain.ProductCatalog
                 case ProductNameChangedEvent e:
                     ApplyProductNameChangedEvent(e);
                     break;
+
+                case ProductPriceChangedEvent e:
+                    ApplyProductPriceChangedEvent(e);
+                    break;
             }
         }
 
@@ -81,7 +53,7 @@ namespace Product.Api.Domain.ProductCatalog
             Id = e.AggregateId;
             Code = new ProductCode(e.Code);
             Name = new ProductName(e.Name);
-            Price = e.Price;
+            Price = ProductPrice.FromMoney(e.Price);
         }
 
         private void ApplyProductCodeChangedEvent(ProductCodeChangedEvent e)
@@ -93,6 +65,12 @@ namespace Product.Api.Domain.ProductCatalog
         private void ApplyProductNameChangedEvent(ProductNameChangedEvent e)
         {
             Name = new ProductName(e.Name);
+            LastUpdateDate = DateTime.UtcNow;
+        }
+
+        private void ApplyProductPriceChangedEvent(ProductPriceChangedEvent e)
+        {
+            Price = ProductPrice.FromMoney(e.Price);
             LastUpdateDate = DateTime.UtcNow;
         }
     }
