@@ -16,7 +16,7 @@ namespace Product.Api.Domain.ProductCatalog
 
         public ProductPrice Price { get; private set; }
 
-        public Photo Photo { get; private set; }
+        //public Photo Photo { get; private set; }
 
         public DateTime? LastUpdateDate { get; private set; }
 
