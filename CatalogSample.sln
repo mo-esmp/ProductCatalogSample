@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Product.Api", "src\Product.Api\Product.Api.csproj", "{995B06DB-0924-4B7D-9D0F-CF6C098F3915}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Api", "src\Product.Api\Catalog.Api.csproj", "{995B06DB-0924-4B7D-9D0F-CF6C098F3915}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B6300736-1183-470F-B1C8-BD2C48E3AEEA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C7EA3D2F-4671-4A8C-A38C-B3CD723C4BA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "test\UnitTests\UnitTests.csproj", "{204D25DC-9919-4FD7-9D44-E3626DC1E733}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "test\UnitTests\UnitTests.csproj", "{204D25DC-9919-4FD7-9D44-E3626DC1E733}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
-﻿using Product.Api.Domain.Shared;
+﻿using Catalog.Api.Domain.Shared;
 using System;
 
-namespace Product.Api.Domain.ProductCatalog
+namespace Catalog.Api.Domain.ProductCatalog
 {
     public class ProductCreatedEvent : Event
     {

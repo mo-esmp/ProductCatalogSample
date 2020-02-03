@@ -1,7 +1,7 @@
-﻿using Product.Api.Domain.Exceptions;
-using Product.Api.Domain.Shared;
+﻿using Catalog.Api.Domain.Exceptions;
+using Catalog.Api.Domain.Shared;
 
-namespace Product.Api.Domain.ProductCatalog
+namespace Catalog.Api.Domain.ProductCatalog
 {
     public class ProductPrice : Money
     {

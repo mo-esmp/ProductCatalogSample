@@ -1,4 +1,4 @@
-﻿namespace Product.Api.Domain.Shared
+﻿namespace Catalog.Api.Domain.Shared
 {
     public interface ICurrencyLookup
     {

@@ -1,9 +1,9 @@
-﻿using Product.Api.Domain.Shared;
-using Product.Api.Resources;
+﻿using Catalog.Api.Domain.Shared;
+using Catalog.Api.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Product.Api.V1.ViewModels
+namespace Catalog.Api.V1.ViewModels
 {
     public class ProductAddViewModel
     {

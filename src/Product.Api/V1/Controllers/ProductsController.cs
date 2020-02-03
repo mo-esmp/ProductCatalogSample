@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Catalog.Api.Controllers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Product.Api.Controllers;
 using System.Threading.Tasks;
 
-namespace Product.Api.V1.Controllers
+namespace Catalog.Api.V1.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]

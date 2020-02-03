@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Product.Api.Domain.ProductCatalog
+namespace Catalog.Api.Domain.ProductCatalog
 {
     public static partial class Events
     {

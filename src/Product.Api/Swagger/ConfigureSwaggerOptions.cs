@@ -5,7 +5,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 
-namespace Product.Api
+namespace Catalog.Api
 {
     public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
 

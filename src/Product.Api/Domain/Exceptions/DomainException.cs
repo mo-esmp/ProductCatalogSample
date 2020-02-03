@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Product.Api.Domain.Exceptions
+namespace Catalog.Api.Domain.Exceptions
 {
     public abstract class DomainException : Exception
     {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Product.Api.Resources {
+namespace Catalog.Api.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Product.Api.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Product.Api.Resources.DisplayNamesResource", typeof(DisplayNamesResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Catalog.Api.Resources.DisplayNamesResource", typeof(DisplayNamesResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

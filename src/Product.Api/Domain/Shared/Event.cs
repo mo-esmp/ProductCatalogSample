@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace Product.Api.Domain.Shared
+namespace Catalog.Api.Domain.Shared
 {
     public abstract class Event : INotification
     {

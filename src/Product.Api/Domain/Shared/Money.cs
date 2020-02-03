@@ -1,8 +1,8 @@
-﻿using Product.Api.Domain.Exceptions;
+﻿using Catalog.Api.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 
-namespace Product.Api.Domain.Shared
+namespace Catalog.Api.Domain.Shared
 {
     public class Money : IEquatable<Money>
     {

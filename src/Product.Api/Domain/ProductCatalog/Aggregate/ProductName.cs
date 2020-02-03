@@ -1,8 +1,8 @@
-﻿using Product.Api.Domain.Exceptions;
+﻿using Catalog.Api.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 
-namespace Product.Api.Domain.ProductCatalog
+namespace Catalog.Api.Domain.ProductCatalog
 {
     public class ProductName : IEquatable<ProductName>
     {

@@ -1,5 +1,5 @@
 using Moq;
-using Product.Api.Domain.Shared;
+using Catalog.Api.Domain.Shared;
 using System.Linq;
 using Xunit;
 

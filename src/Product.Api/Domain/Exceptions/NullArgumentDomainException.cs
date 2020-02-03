@@ -1,4 +1,4 @@
-﻿namespace Product.Api.Domain.Exceptions
+﻿namespace Catalog.Api.Domain.Exceptions
 {
     public class NullArgumentDomainException : DomainException
     {

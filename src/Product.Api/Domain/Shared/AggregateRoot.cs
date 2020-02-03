@@ -1,8 +1,8 @@
-﻿using Product.Api.Domain.Exceptions;
+﻿using Catalog.Api.Domain.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Product.Api.Domain.Shared
+namespace Catalog.Api.Domain.Shared
 {
     public abstract class AggregateRoot<T> : Entity<T>
     {

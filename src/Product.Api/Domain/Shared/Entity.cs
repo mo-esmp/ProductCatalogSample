@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Product.Api.Domain.Shared
+namespace Catalog.Api.Domain.Shared
 {
     public abstract class Entity<T> : IEquatable<Entity<T>>
     {
