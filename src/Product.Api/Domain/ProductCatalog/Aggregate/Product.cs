@@ -5,9 +5,13 @@ namespace Catalog.Api.Domain.ProductCatalog
 {
     public class Product : AggregateRoot<Guid>
     {
-        public Product(string code, string name, Money price)
+        protected Product()
         {
-            Apply(new ProductCreatedEvent(Guid.NewGuid(), code, name, price));
+        }
+
+        public Product(Guid id, string code, string name, Money price)
+        {
+            Apply(new ProductCreatedEvent(id, code, name, price));
         }
 
         public ProductCode Code { get; private set; }
