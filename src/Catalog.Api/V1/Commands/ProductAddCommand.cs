@@ -1,11 +1,12 @@
 ﻿using Catalog.Api.Domain.Shared;
 using Catalog.Api.Resources;
+using MediatR;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Catalog.Api.V1.ViewModels
+namespace Catalog.Api.V1.Commands
 {
-    public class ProductAddViewModel
+    public class ProductAddCommand : IRequest
     {
         [Display(ResourceType = typeof(DisplayNamesResource), Name = "ProductCode")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessagesResource), ErrorMessageResourceName = "RequiredError")]
