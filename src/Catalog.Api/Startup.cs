@@ -1,5 +1,11 @@
+using Catalog.Api.Domain;
+using Catalog.Api.Domain.ProductCatalog;
+using Catalog.Api.Domain.Shared;
+using Catalog.Api.Infrastructure;
 using Catalog.Api.Infrastructure.Data;
+using Catalog.Api.Infrastructure.ProductCatalog;
 using Catalog.Api.Swagger;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -42,6 +48,11 @@ namespace Catalog.Api
                     // add a custom operation filter which sets default values
                     options.OperationFilter<SwaggerDefaultValues>();
                 });
+
+            services.AddMediatR(typeof(Startup).Assembly);
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICurrencyLookup, FixedCurrencyLookup>();
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -61,6 +61,15 @@ namespace Catalog.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is duplicate..
+        /// </summary>
+        public static string DuplicateError {
+            get {
+                return ResourceManager.GetString("DuplicateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Currency is not valid..
         /// </summary>
         public static string InvalidCurrencyError {
