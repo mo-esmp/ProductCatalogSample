@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Catalog.Api.Domain.Shared;
+using System;
 
 namespace Catalog.Api.V1.Dtos
 {
@@ -12,6 +13,6 @@ namespace Catalog.Api.V1.Dtos
 
         public decimal Price { get; set; }
 
-        public string Currency { get; set; }
+        public CurrencyCode CurrencyCode { get; set; }
     }
 }

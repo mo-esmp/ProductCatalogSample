@@ -30,7 +30,7 @@ namespace Catalog.Api.Infrastructure.ProductCatalog
                     Code = p.Code.Value,
                     Name = p.Name.Value,
                     Price = p.Price.Amount,
-                    Currency = p.Price.Currency.ToString()
+                    CurrencyCode = p.Price.Currency.CurrencyCode
                 })
                 .SingleOrDefaultAsync(cancellationToken);
         }
@@ -43,9 +43,9 @@ namespace Catalog.Api.Infrastructure.ProductCatalog
                 {
                     Id = p.Id,
                     Code = p.Code.Value,
-                    Name = p.Code.Value,
+                    Name = p.Name.Value,
                     Price = p.Price.Amount,
-                    Currency = p.Price.Currency.ToString()
+                    CurrencyCode = p.Price.Currency.CurrencyCode
                 })
                 .ToListAsync(cancellationToken);
         }
