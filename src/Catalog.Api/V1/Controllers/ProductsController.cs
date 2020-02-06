@@ -1,6 +1,8 @@
 ﻿using Catalog.Api.Controllers;
 using Catalog.Api.Domain;
 using Catalog.Api.V1.Commands;
+using Catalog.Api.V1.Dtos;
+using Catalog.Api.V1.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +22,12 @@ namespace Catalog.Api.V1.Controllers
         {
             _mediator = mediator;
             _unitOfWork = unitOfWork;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ProductDto> Get(Guid id)
+        {
+            return await _mediator.Send(new ProductGetQuery(id));
         }
 
         [HttpPost]
