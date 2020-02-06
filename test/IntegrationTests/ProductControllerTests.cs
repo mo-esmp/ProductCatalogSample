@@ -123,5 +123,29 @@ namespace IntegrationTests
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
+
+        [Fact]
+        public async Task Delete_Product_With_Wrong_Id_Returns_Error()
+        {
+            // Arrange
+
+            // Act
+            var response = await _client.DeleteAsync($"{ApiUrl}/100");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Delete_Product_Returns_Ok()
+        {
+            // Arrange
+
+            // Act
+            var response = await _client.DeleteAsync($"{ApiUrl}/{InitialProductList.Products.First().Id}");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
     }
 }
