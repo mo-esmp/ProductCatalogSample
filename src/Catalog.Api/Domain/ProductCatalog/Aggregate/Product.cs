@@ -54,6 +54,9 @@ namespace Catalog.Api.Domain.ProductCatalog
 
         private void ApplyProductCreatedEvent(ProductCreatedEvent e)
         {
+            if (e.AggregateId == Guid.Empty)
+                throw new ArgumentNullException(nameof(Id));
+
             Id = e.AggregateId;
             Code = new ProductCode(e.Code);
             Name = new ProductName(e.Name);
