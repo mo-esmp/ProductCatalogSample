@@ -37,21 +37,21 @@ namespace Catalog.Api.V1.Controllers
             return await _mediator.Send(new ProductGetQuery(id));
         }
 
-        [HttpPost]
+        [HttpPost, Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post(ProductAddCommand command)
+        public async Task<IActionResult> Post(ProductAddCommand command, ApiVersion version)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _mediator.Send(command);
+            var id = await _mediator.Send(command);
             await _unitOfWork.CommitAsync();
 
-            return Ok();
+            return CreatedAtAction(nameof(Get), new { id, Version = $"{version}" }, new ProductDto { Id = id });
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Put(Guid id, ProductEditCommand command)

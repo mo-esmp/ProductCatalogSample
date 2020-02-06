@@ -1,11 +1,12 @@
 ﻿using Catalog.Api.Domain.Shared;
 using Catalog.Api.Resources;
 using MediatR;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Catalog.Api.V1.Commands
 {
-    public class ProductAddCommand : IRequest
+    public class ProductAddCommand : IRequest<Guid>
     {
         [Display(ResourceType = typeof(DisplayNamesResource), Name = "ProductCode")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessagesResource), ErrorMessageResourceName = "RequiredError")]

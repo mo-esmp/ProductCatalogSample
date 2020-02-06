@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Catalog.Api.Infrastructure.ProductCatalog
 {
     public class ProductCommandHandler :
-        IRequestHandler<ProductAddCommand>,
+        IRequestHandler<ProductAddCommand, Guid>,
         IRequestHandler<ProductEditCommand>,
         IRequestHandler<ProductRemoveCommand>
     {
@@ -24,7 +24,7 @@ namespace Catalog.Api.Infrastructure.ProductCatalog
             _repository = repository;
         }
 
-        public async Task<Unit> Handle(ProductAddCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(ProductAddCommand request, CancellationToken cancellationToken)
         {
             if (await _repository.CheckProductExistByCodeAsync(request.Code))
                 throw new DuplicateDomainException(string.Format(ErrorMessagesResource.DuplicateError, DisplayNamesResource.ProductCode));
@@ -33,7 +33,7 @@ namespace Catalog.Api.Infrastructure.ProductCatalog
             var product = new Product(Guid.NewGuid(), request.Code, request.Name, price);
             _repository.AddProduct(product);
 
-            return Unit.Value;
+            return product.Id;
         }
 
         public async Task<Unit> Handle(ProductEditCommand request, CancellationToken cancellationToken)

@@ -57,10 +57,11 @@ namespace IntegrationTests
 
             // Act
             var response = await _client.PostAsync(ApiUrl, content);
+            var body = await response.Content.ReadAsStringAsync();
 
             // Assert
             response.EnsureSuccessStatusCode();
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }
 
         [Fact]
