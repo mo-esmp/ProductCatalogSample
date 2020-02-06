@@ -12,7 +12,8 @@ namespace Catalog.Api.Infrastructure.ProductCatalog
 {
     public class ProductCommandHandler :
         IRequestHandler<ProductAddCommand>,
-        IRequestHandler<ProductEditCommand>
+        IRequestHandler<ProductEditCommand>,
+        IRequestHandler<ProductRemoveCommand>
     {
         private readonly ICurrencyLookup _currencyLookup;
         private readonly IProductRepository _repository;
@@ -56,6 +57,17 @@ namespace Catalog.Api.Infrastructure.ProductCatalog
             }
 
             _repository.EditProduct(product);
+
+            return Unit.Value;
+        }
+
+        public async Task<Unit> Handle(ProductRemoveCommand request, CancellationToken cancellationToken)
+        {
+            var product = await _repository.GetProductByIdAsync(request.Id);
+            if (product == null)
+                throw new NotFoundDomainException(string.Format(ErrorMessagesResource.NotFoundError, DisplayNamesResource.Product));
+
+            _repository.RemoveProduct(product);
 
             return Unit.Value;
         }

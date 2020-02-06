@@ -65,5 +65,16 @@ namespace Catalog.Api.V1.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _mediator.Send(new ProductRemoveCommand { Id = id });
+            await _unitOfWork.CommitAsync();
+
+            return Ok();
+        }
     }
 }

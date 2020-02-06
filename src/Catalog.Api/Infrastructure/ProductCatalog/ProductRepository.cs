@@ -25,6 +25,11 @@ namespace Catalog.Api.Infrastructure.ProductCatalog
             _context.Entry(product).State = EntityState.Modified;
         }
 
+        public void RemoveProduct(Product product)
+        {
+            _context.Entry(product).State = EntityState.Deleted;
+        }
+
         public Task<bool> CheckProductExistByCodeAsync(string code)
         {
             return _context.Products.AnyAsync(p => p.Code.Value == code);

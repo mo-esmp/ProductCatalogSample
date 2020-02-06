@@ -9,6 +9,8 @@ namespace Catalog.Api.Domain.ProductCatalog
 
         void EditProduct(Product product);
 
+        void RemoveProduct(Product product);
+
         Task<bool> CheckProductExistByCodeAsync(string code);
 
         ValueTask<Product> GetProductByIdAsync(Guid id);
