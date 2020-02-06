@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Catalog.Api.Domain.ProductCatalog
 {
@@ -6,6 +7,10 @@ namespace Catalog.Api.Domain.ProductCatalog
     {
         void AddProduct(Product product);
 
+        void EditProduct(Product product);
+
         Task<bool> CheckProductExistByCodeAsync(string code);
+
+        ValueTask<Product> GetProductByIdAsync(Guid id);
     }
 }

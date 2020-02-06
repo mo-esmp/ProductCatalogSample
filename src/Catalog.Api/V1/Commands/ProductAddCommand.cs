@@ -1,7 +1,6 @@
 ﻿using Catalog.Api.Domain.Shared;
 using Catalog.Api.Resources;
 using MediatR;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Catalog.Api.V1.Commands

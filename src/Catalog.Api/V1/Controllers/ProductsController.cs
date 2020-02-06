@@ -4,6 +4,7 @@ using Catalog.Api.V1.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Catalog.Api.V1.Controllers
@@ -21,6 +22,7 @@ namespace Catalog.Api.V1.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post(ProductAddCommand command)
@@ -28,6 +30,21 @@ namespace Catalog.Api.V1.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            await _mediator.Send(command);
+            await _unitOfWork.CommitAsync();
+
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Put(Guid id, ProductEditCommand command)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            command.Id = id;
             await _mediator.Send(command);
             await _unitOfWork.CommitAsync();
 

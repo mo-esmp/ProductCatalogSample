@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 
 namespace Catalog.Api.Infrastructure.ProductCatalog
 {
-    public class ProductCommandHandler : IRequestHandler<ProductAddCommand>
+    public class ProductCommandHandler :
+        IRequestHandler<ProductAddCommand>,
+        IRequestHandler<ProductEditCommand>
     {
         private readonly ICurrencyLookup _currencyLookup;
         private readonly IProductRepository _repository;
@@ -29,6 +31,31 @@ namespace Catalog.Api.Infrastructure.ProductCatalog
             var price = Money.FromDecimal(request.Price, request.CurrencyCode, _currencyLookup);
             var product = new Product(Guid.NewGuid(), request.Code, request.Name, price);
             _repository.AddProduct(product);
+
+            return Unit.Value;
+        }
+
+        public async Task<Unit> Handle(ProductEditCommand request, CancellationToken cancellationToken)
+        {
+            var product = await _repository.GetProductByIdAsync(request.Id);
+            if (product == null)
+                throw new NotFoundDomainException(string.Format(ErrorMessagesResource.NotFoundError, DisplayNamesResource.Product));
+
+            if (product.Name.Value != request.Name)
+                product.UpdateName(request.Name);
+
+            if (product.Price.Amount != request.Price)
+                product.UpdatePrice(Money.FromDecimal(request.Price, request.CurrencyCode, _currencyLookup));
+
+            if (product.Code.Value != request.Code)
+            {
+                if (await _repository.CheckProductExistByCodeAsync(request.Code))
+                    throw new DuplicateDomainException(string.Format(ErrorMessagesResource.DuplicateError, DisplayNamesResource.ProductCode));
+
+                product.UpdateCode(request.Code);
+            }
+
+            _repository.EditProduct(product);
 
             return Unit.Value;
         }
