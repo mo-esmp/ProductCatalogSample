@@ -2,19 +2,19 @@ using Catalog.Api;
 using Catalog.Api.Domain.Shared;
 using Catalog.Api.V1.Commands;
 using IntegrationTests.TestSetup;
-using Newtonsoft.Json;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace IntegrationTests
 {
     public class ProductControllerTests : IClassFixture<TestingWebApplicationFactory<Startup>>
     {
-        private const string _apiUrl = "/api/v1/products";
+        private const string ApiUrl = "/api/v1/products";
         private readonly HttpClient _client;
 
         public ProductControllerTests(TestingWebApplicationFactory<Startup> factory)
@@ -33,13 +33,13 @@ namespace IntegrationTests
                 Price = 9.99m,
                 CurrencyCode = CurrencyCode.Euro
             };
-            var content = new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(command), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _client.PostAsync(_apiUrl, content);
+            var response = await _client.PostAsync(ApiUrl, content);
 
             // Assert
-            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]
@@ -53,13 +53,74 @@ namespace IntegrationTests
                 Price = 9.99m,
                 CurrencyCode = CurrencyCode.Euro
             };
-            var content = new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(command), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _client.PostAsync(_apiUrl, content);
+            var response = await _client.PostAsync(ApiUrl, content);
 
             // Assert
             response.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Update_Product_With_Wrong_Id_Returns_Error()
+        {
+            // Arrange
+            var command = new ProductEditCommand
+            {
+                Code = InitialProductList.Products.First().Code.Value,
+                Name = "Some Product",
+                Price = 9.99m,
+                CurrencyCode = CurrencyCode.Euro
+            };
+            var content = new StringContent(JsonSerializer.Serialize(command), Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client.PutAsync($"{ApiUrl}/100", content);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Update_Product_With_Duplicate_Code_Returns_Error()
+        {
+            // Arrange
+            var command = new ProductEditCommand
+            {
+                Code = InitialProductList.Products.Last().Code.Value,
+                Name = "Some Product",
+                Price = 9.99m,
+                CurrencyCode = CurrencyCode.Euro
+            };
+            var content = new StringContent(JsonSerializer.Serialize(command), Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client.PutAsync($"{ApiUrl}/{InitialProductList.Products.First().Id}", content);
+            var body = await response.Content.ReadAsStringAsync();
+            // Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Update_Product_Returns_Ok()
+        {
+            // Arrange
+            var product = InitialProductList.Products.First();
+            var command = new ProductEditCommand
+            {
+                Code = product.Code.Value,
+                Name = "Some Product",
+                Price = 9.99m,
+                CurrencyCode = CurrencyCode.Euro
+            };
+            var content = new StringContent(JsonSerializer.Serialize(command), Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client.PutAsync($"{ApiUrl}/{product.Id}", content);
+
+            // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
