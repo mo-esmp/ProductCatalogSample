@@ -1,5 +1,6 @@
 ﻿using Catalog.Api.Domain.Exceptions;
 using Catalog.Api.Domain.Shared;
+using Catalog.Api.Resources;
 
 namespace Catalog.Api.Domain.ProductCatalog
 {
@@ -12,7 +13,7 @@ namespace Catalog.Api.Domain.ProductCatalog
         public static ProductPrice FromMoney(Money money)
         {
             if (money.Amount <= 0)
-                throw new InvalidPriceDomainException("Product price must be higher than 0");
+                throw new InvalidPriceDomainException(ErrorMessagesResource.InvalidProductPriceError);
 
             return new ProductPrice { Amount = money.Amount, Currency = money.Currency };
         }

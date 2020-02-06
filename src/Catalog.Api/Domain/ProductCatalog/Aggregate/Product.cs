@@ -20,6 +20,8 @@ namespace Catalog.Api.Domain.ProductCatalog
 
         public ProductPrice Price { get; private set; }
 
+        public ProductStatus Status { get; private set; }
+
         //public Photo Photo { get; private set; }
 
         public DateTime? LastUpdateDate { get; private set; }
@@ -61,6 +63,7 @@ namespace Catalog.Api.Domain.ProductCatalog
             Code = new ProductCode(e.Code);
             Name = new ProductName(e.Name);
             Price = ProductPrice.FromMoney(e.Price);
+            SetStatus();
         }
 
         private void ApplyProductCodeChangedEvent(ProductCodeChangedEvent e)
@@ -78,7 +81,19 @@ namespace Catalog.Api.Domain.ProductCatalog
         private void ApplyProductPriceChangedEvent(ProductPriceChangedEvent e)
         {
             Price = ProductPrice.FromMoney(e.Price);
+            SetStatus();
             LastUpdateDate = DateTime.UtcNow;
         }
+
+        private void SetStatus()
+        {
+            Status = Price.Amount <= 999 ? ProductStatus.Active : ProductStatus.Pending;
+        }
+    }
+
+    public enum ProductStatus
+    {
+        Active = 1,
+        Pending = 2
     }
 }

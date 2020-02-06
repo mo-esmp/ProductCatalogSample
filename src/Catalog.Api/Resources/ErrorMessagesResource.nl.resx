@@ -126,6 +126,9 @@
   <data name="InvalidPriceError" xml:space="preserve">
     <value>{0} moet een decimaal / getal zijn tussen {1} en {2}</value>
   </data>
+  <data name="InvalidProductPriceError" xml:space="preserve">
+    <value>Productprijs musti hoger dan 0.</value>
+  </data>
   <data name="NotFoundError" xml:space="preserve">
     <value>{0} kon niet gevonden worden</value>
   </data>

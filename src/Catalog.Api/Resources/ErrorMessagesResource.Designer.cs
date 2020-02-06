@@ -88,6 +88,15 @@ namespace Catalog.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Product price musti higher than 0..
+        /// </summary>
+        public static string InvalidProductPriceError {
+            get {
+                return ResourceManager.GetString("InvalidProductPriceError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} could not be found..
         /// </summary>
         public static string NotFoundError {
