@@ -97,6 +97,15 @@ namespace Catalog.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} should not be empty..
+        /// </summary>
+        public static string NullArgumentException {
+            get {
+                return ResourceManager.GetString("NullArgumentException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is required..
         /// </summary>
         public static string RequiredError {

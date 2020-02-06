@@ -1,4 +1,5 @@
 ﻿using Catalog.Api.Domain.Exceptions;
+using Catalog.Api.Resources;
 using System;
 using System.Collections.Generic;
 
@@ -8,7 +9,8 @@ namespace Catalog.Api.Domain.ProductCatalog
     {
         public ProductCode(string value)
         {
-            Value = value ?? throw new NullArgumentDomainException("Product code should not be empty.");
+            Value = value ?? throw new NullArgumentDomainException(
+                        string.Format(ErrorMessagesResource.NullArgumentException, DisplayNamesResource.ProductCode));
         }
 
         public string Value { get; }

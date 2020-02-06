@@ -129,6 +129,9 @@
   <data name="NotFoundError" xml:space="preserve">
     <value>{0} kon niet gevonden worden</value>
   </data>
+  <data name="NullArgumentException" xml:space="preserve">
+    <value>{0} mag niet leeg zijn.</value>
+  </data>
   <data name="RequiredError" xml:space="preserve">
     <value>{0} is vereist.</value>
   </data>
