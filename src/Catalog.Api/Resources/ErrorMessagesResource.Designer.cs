@@ -88,6 +88,15 @@ namespace Catalog.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} could not be found..
+        /// </summary>
+        public static string NotFoundError {
+            get {
+                return ResourceManager.GetString("NotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is required..
         /// </summary>
         public static string RequiredError {

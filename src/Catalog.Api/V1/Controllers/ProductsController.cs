@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Catalog.Api.V1.Controllers
@@ -22,6 +23,12 @@ namespace Catalog.Api.V1.Controllers
         {
             _mediator = mediator;
             _unitOfWork = unitOfWork;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<ProductDto>> Get()
+        {
+            return await _mediator.Send(new ProductGetsQuery());
         }
 
         [HttpGet("{id}")]

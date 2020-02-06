@@ -120,6 +120,9 @@
   <data name="Currency" xml:space="preserve">
     <value>Valuta</value>
   </data>
+  <data name="Product" xml:space="preserve">
+    <value>Product</value>
+  </data>
   <data name="ProductCode" xml:space="preserve">
     <value>Product code</value>
   </data>
