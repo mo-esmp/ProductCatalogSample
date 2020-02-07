@@ -53,6 +53,7 @@ namespace Catalog.Api
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ICurrencyLookup, FixedCurrencyLookup>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IFileSaver, PhotoFileSaver>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

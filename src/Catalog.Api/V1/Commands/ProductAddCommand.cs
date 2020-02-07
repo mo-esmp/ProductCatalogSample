@@ -1,8 +1,11 @@
 ﻿using Catalog.Api.Domain.Shared;
 using Catalog.Api.Resources;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Catalog.Api.V1.Commands
 {
@@ -23,5 +26,11 @@ namespace Catalog.Api.V1.Commands
         [Display(ResourceType = typeof(DisplayNamesResource), Name = "Currency")]
         [Range(1, 2, ErrorMessageResourceType = typeof(ErrorMessagesResource), ErrorMessageResourceName = "InvalidCurrencyError")]
         public CurrencyCode CurrencyCode { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(ErrorMessagesResource), ErrorMessageResourceName = "RequiredError")]
+        public IFormFile Photo { get; set; }
+
+        [BindNever, JsonIgnore]
+        public string PhotoName { get; set; }
     }
 }
