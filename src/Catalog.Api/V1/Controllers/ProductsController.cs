@@ -28,9 +28,9 @@ namespace Catalog.Api.V1.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ProductDto>> Get()
+        public async Task<IEnumerable<ProductDto>> Get(string code, string name)
         {
-            return await _mediator.Send(new ProductGetsQuery());
+            return await _mediator.Send(new ProductSearchQuery { Code = code, Name = name });
         }
 
         [HttpGet("{id}")]
