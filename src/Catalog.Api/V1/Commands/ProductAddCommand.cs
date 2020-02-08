@@ -28,7 +28,6 @@ namespace Catalog.Api.V1.Commands
         [Range(1, 2, ErrorMessageResourceType = typeof(ErrorMessagesResource), ErrorMessageResourceName = "InvalidCurrencyError")]
         public CurrencyCode CurrencyCode { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(ErrorMessagesResource), ErrorMessageResourceName = "RequiredError")]
         public IFormFile Photo { get; set; }
 
         [BindNever, JsonIgnore, SwaggerExclude]
