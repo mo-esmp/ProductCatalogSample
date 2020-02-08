@@ -1,16 +1,16 @@
 ﻿using Catalog.Api.Domain.Shared;
 using Catalog.Api.Resources;
+using Catalog.Api.Swagger;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Catalog.Api.V1.Commands
 {
     public class ProductEditCommand : IRequest
     {
-        [BindNever, JsonIgnore]
+        [BindNever, SwaggerExclude]
         public Guid Id { get; set; }
 
         [Display(ResourceType = typeof(DisplayNamesResource), Name = "ProductCode")]

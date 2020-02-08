@@ -1,5 +1,6 @@
 ﻿using Catalog.Api.Domain.Shared;
 using Catalog.Api.Resources;
+using Catalog.Api.Swagger;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -30,7 +31,7 @@ namespace Catalog.Api.V1.Commands
         [Required(ErrorMessageResourceType = typeof(ErrorMessagesResource), ErrorMessageResourceName = "RequiredError")]
         public IFormFile Photo { get; set; }
 
-        [BindNever, JsonIgnore]
+        [BindNever, JsonIgnore, SwaggerExclude]
         public string PhotoName { get; set; }
     }
 }

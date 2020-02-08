@@ -47,6 +47,7 @@ namespace Catalog.Api
                 {
                     // add a custom operation filter which sets default values
                     options.OperationFilter<SwaggerDefaultValues>();
+                    options.SchemaFilter<SwaggerExcludeFilter>();
                 });
 
             services.AddMediatR(typeof(Startup).Assembly);
