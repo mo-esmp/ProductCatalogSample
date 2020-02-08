@@ -14,5 +14,7 @@ namespace Catalog.Api.V1.Dtos
         public decimal Price { get; set; }
 
         public CurrencyCode CurrencyCode { get; set; }
+
+        public string PhotoUrl { get; set; }
     }
 }

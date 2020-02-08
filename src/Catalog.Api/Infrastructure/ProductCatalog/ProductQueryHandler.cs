@@ -3,6 +3,7 @@ using Catalog.Api.Infrastructure.Data;
 using LinqKit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -15,10 +16,12 @@ namespace Catalog.Api.Infrastructure.ProductCatalog
         IRequestHandler<V1.Queries.ProductSearchQuery, IEnumerable<V1.Dtos.ProductDto>>
     {
         private readonly ProductDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public ProductQueryHandler(ProductDbContext context)
+        public ProductQueryHandler(ProductDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public async Task<V1.Dtos.ProductDto> Handle(V1.Queries.ProductGetQuery request, CancellationToken cancellationToken)
@@ -32,7 +35,10 @@ namespace Catalog.Api.Infrastructure.ProductCatalog
                     Code = p.Code.Value,
                     Name = p.Name.Value,
                     Price = p.Price.Amount,
-                    CurrencyCode = p.Price.Currency.CurrencyCode
+                    CurrencyCode = p.Price.Currency.CurrencyCode,
+                    PhotoUrl = p.PhotoName != null
+                        ? $"{_configuration["Settings:ProductPhotoDirectory"]}{p.PhotoName}"
+                        : null
                 })
                 .SingleOrDefaultAsync(cancellationToken);
         }
@@ -56,7 +62,10 @@ namespace Catalog.Api.Infrastructure.ProductCatalog
                     Code = p.Code.Value,
                     Name = p.Name.Value,
                     Price = p.Price.Amount,
-                    CurrencyCode = p.Price.Currency.CurrencyCode
+                    CurrencyCode = p.Price.Currency.CurrencyCode,
+                    PhotoUrl = p.PhotoName != null
+                        ? $"{_configuration["Settings:ProductPhotoDirectory"]}{p.PhotoName}"
+                        : null
                 })
                 .ToListAsync(cancellationToken);
         }

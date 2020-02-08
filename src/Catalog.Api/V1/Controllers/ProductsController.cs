@@ -52,7 +52,9 @@ namespace Catalog.Api.V1.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            command.PhotoName = await fileSaver.SaveAsync(command.Photo, configuration["Settings:UploadFolderName"]);
+            if (command.Photo != null && command.Photo.Length > 0)
+                command.PhotoName = await fileSaver.SaveAsync(command.Photo, configuration["Settings:ProductPhotoDirectory"]);
+
             var id = await _mediator.Send(command);
             await _unitOfWork.CommitAsync();
 
