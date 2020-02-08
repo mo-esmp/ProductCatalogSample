@@ -30,7 +30,7 @@ namespace Catalog.Api.Infrastructure.ProductCatalog
                 throw new DuplicateDomainException(string.Format(ErrorMessagesResource.DuplicateError, DisplayNamesResource.ProductCode));
 
             var price = Money.FromDecimal(request.Price, request.CurrencyCode, _currencyLookup);
-            var product = new Product(Guid.NewGuid(), request.Code, request.Name, price);
+            var product = new Product(Guid.NewGuid(), request.Code, request.Name, price, request.PhotoName);
             _repository.AddProduct(product);
 
             return product.Id;

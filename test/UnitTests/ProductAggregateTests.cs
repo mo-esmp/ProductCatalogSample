@@ -16,7 +16,7 @@ namespace UnitTests
             var money = Money.FromDecimal(5, CurrencyCode.Euro, FakeCurrencyLookup.Lookup);
 
             // Act
-            var exception = Record.Exception(() => new Product(Guid.Empty, "12345", "Some name", money));
+            var exception = Record.Exception(() => new Product(Guid.Empty, "12345", "Some name", money, null));
 
             // Assert
             Assert.IsType<ArgumentNullException>(exception);
@@ -30,7 +30,7 @@ namespace UnitTests
             var money = Money.FromDecimal(5, CurrencyCode.Euro, FakeCurrencyLookup.Lookup);
 
             // Act
-            var exception = Record.Exception(() => new Product(Guid.NewGuid(), null, "Some name", money));
+            var exception = Record.Exception(() => new Product(Guid.NewGuid(), null, "Some name", money, null));
 
             // Assert
             Assert.IsType<NullArgumentDomainException>(exception);
@@ -46,7 +46,7 @@ namespace UnitTests
             var money = Money.FromDecimal(5, CurrencyCode.Euro, FakeCurrencyLookup.Lookup);
 
             // Act
-            var exception = Record.Exception(() => new Product(Guid.NewGuid(), "12345", "Some name", money));
+            var exception = Record.Exception(() => new Product(Guid.NewGuid(), "12345", "Some name", money, null));
             exception ??= new Exception("dummy");
 
             // Assert
@@ -62,7 +62,7 @@ namespace UnitTests
             var money = Money.FromDecimal(5, CurrencyCode.Euro, FakeCurrencyLookup.Lookup);
 
             // Act
-            var exception = Record.Exception(() => new Product(Guid.NewGuid(), "12345", null, money));
+            var exception = Record.Exception(() => new Product(Guid.NewGuid(), "12345", null, money, null));
 
             // Assert
             Assert.IsType<NullArgumentDomainException>(exception);
@@ -78,7 +78,7 @@ namespace UnitTests
             var money = Money.FromDecimal(5, CurrencyCode.Euro, FakeCurrencyLookup.Lookup);
 
             // Act
-            var exception = Record.Exception(() => new Product(Guid.NewGuid(), "12345", "Product Name", money));
+            var exception = Record.Exception(() => new Product(Guid.NewGuid(), "12345", "Product Name", money, null));
             exception ??= new Exception("dummy");
 
             // Assert
@@ -96,7 +96,7 @@ namespace UnitTests
             var money = Money.FromDecimal(amount, CurrencyCode.Euro, FakeCurrencyLookup.Lookup);
 
             // Act
-            var exception = Record.Exception(() => new Product(Guid.NewGuid(), "12345", "Product name", money));
+            var exception = Record.Exception(() => new Product(Guid.NewGuid(), "12345", "Product name", money, null));
 
             // Assert
             Assert.IsType<InvalidPriceDomainException>(exception);
@@ -110,7 +110,7 @@ namespace UnitTests
             var money = Money.FromDecimal(1, CurrencyCode.Euro, FakeCurrencyLookup.Lookup);
 
             // Act
-            var exception = Record.Exception(() => new Product(Guid.NewGuid(), "12345", "Product name", money));
+            var exception = Record.Exception(() => new Product(Guid.NewGuid(), "12345", "Product name", money, null));
             exception ??= new Exception("dummy");
 
             // Assert
@@ -126,7 +126,7 @@ namespace UnitTests
             var money = Money.FromDecimal(amount, CurrencyCode.Euro, FakeCurrencyLookup.Lookup);
 
             // Act
-            var product = new Product(Guid.NewGuid(), "12345", "Product name", money);
+            var product = new Product(Guid.NewGuid(), "12345", "Product name", money, null);
 
             // Assert
             Assert.Equal(ProductStatus.Active, product.Status);
@@ -140,7 +140,7 @@ namespace UnitTests
             var money = Money.FromDecimal(amount, CurrencyCode.Euro, FakeCurrencyLookup.Lookup);
 
             // Act
-            var product = new Product(Guid.NewGuid(), "12345", "Product name", money);
+            var product = new Product(Guid.NewGuid(), "12345", "Product name", money, null);
 
             // Assert
             Assert.Equal(ProductStatus.Pending, product.Status);

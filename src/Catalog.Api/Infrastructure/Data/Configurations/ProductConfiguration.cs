@@ -25,6 +25,12 @@ namespace Catalog.Api.Infrastructure.Data.Configurations
                 .IsRequired();
 
             builder
+                .Property(b => b.PhotoName)
+                .HasMaxLength(64)
+                .IsUnicode(false)
+                .IsRequired(false);
+
+            builder
                 .OwnsOne(x => x.Price,
                     p => p.OwnsOne(c => c.Currency));
         }

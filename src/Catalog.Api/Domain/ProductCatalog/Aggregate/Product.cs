@@ -9,9 +9,9 @@ namespace Catalog.Api.Domain.ProductCatalog
         {
         }
 
-        public Product(Guid id, string code, string name, Money price)
+        public Product(Guid id, string code, string name, Money price, string photoName)
         {
-            Apply(new ProductCreatedEvent(id, code, name, price));
+            Apply(new ProductCreatedEvent(id, code, name, price, photoName));
         }
 
         public ProductCode Code { get; private set; }
@@ -22,7 +22,7 @@ namespace Catalog.Api.Domain.ProductCatalog
 
         public ProductStatus Status { get; private set; }
 
-        public string PhotoName { get; set; }
+        public string PhotoName { get; private set; }
 
         public DateTime? LastUpdateDate { get; private set; }
 
@@ -63,6 +63,7 @@ namespace Catalog.Api.Domain.ProductCatalog
             Code = new ProductCode(e.Code);
             Name = new ProductName(e.Name);
             Price = ProductPrice.FromMoney(e.Price);
+            PhotoName = e.PhotoName;
             SetStatus();
         }
 
