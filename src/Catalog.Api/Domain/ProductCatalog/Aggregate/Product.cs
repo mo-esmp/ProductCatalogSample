@@ -22,7 +22,7 @@ namespace Catalog.Api.Domain.ProductCatalog
 
         public ProductStatus Status { get; private set; }
 
-        //public Photo Photo { get; private set; }
+        public string PhotoName { get; set; }
 
         public DateTime? LastUpdateDate { get; private set; }
 

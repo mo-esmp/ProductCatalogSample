@@ -36,7 +36,7 @@ namespace Catalog.Api.V1.Controllers
         [HttpGet("{id}")]
         public async Task<ProductDto> Get(Guid id)
         {
-            return await _mediator.Send(new ProductGetQuery(id));
+            return await _mediator.Send(new ProductGetQuery { ProductId = id });
         }
 
         [HttpPost, Produces("application/json")]
