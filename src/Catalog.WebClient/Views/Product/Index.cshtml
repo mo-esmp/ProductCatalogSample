@@ -1,0 +1,40 @@
+﻿@using Microsoft.Extensions.Configuration
+@model IEnumerable<ProductViewModel>
+@inject IConfiguration configuration
+@{
+    ViewData["Title"] = "Product List";
+    var i = 1;
+}
+
+<h1>Product List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Code</th>
+            <th scope="col">Name</th>
+            <th scope="col">price</th>
+            <th scope="col">Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            var url = $"{configuration["ProductApiUri"]}/{product.PhotoUrl}";
+            <tr>
+                <th scope="row">@i</th>
+                <td>@product.Code</td>
+                <td>@product.Name</td>
+                <td>@product.Price @product.CurrencyCode</td>
+                <td>
+                    @if (product.PhotoUrl != null)
+                    {
+                        <img style="width: 64px" alt="@product.Name" src="@url" />
+                    }
+                </td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>
