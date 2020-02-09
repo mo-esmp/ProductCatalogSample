@@ -79,6 +79,15 @@ namespace Catalog.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export type {0} is not valid..
+        /// </summary>
+        public static string InvalidExportTypeError {
+            get {
+                return ResourceManager.GetString("InvalidExportTypeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} must be a decimal/number between {1} and {2}..
         /// </summary>
         public static string InvalidPriceError {
@@ -88,7 +97,7 @@ namespace Catalog.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Product price musti higher than 0..
+        ///   Looks up a localized string similar to Product price must higher than 0..
         /// </summary>
         public static string InvalidProductPriceError {
             get {

@@ -123,6 +123,9 @@
   <data name="InvalidCurrencyError" xml:space="preserve">
     <value>Valuta is niet geldig.</value>
   </data>
+  <data name="InvalidExportTypeError" xml:space="preserve">
+    <value>Exporttype {0} is ongeldig.</value>
+  </data>
   <data name="InvalidPriceError" xml:space="preserve">
     <value>{0} moet een decimaal / getal zijn tussen {1} en {2}</value>
   </data>

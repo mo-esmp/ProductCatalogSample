@@ -1,6 +1,8 @@
 ﻿using Catalog.Api.Controllers;
 using Catalog.Api.Domain;
 using Catalog.Api.Infrastructure;
+using Catalog.Api.Infrastructure.Exporter;
+using Catalog.Api.Resources;
 using Catalog.Api.V1.Commands;
 using Catalog.Api.V1.Dtos;
 using Catalog.Api.V1.Queries;
@@ -37,6 +39,25 @@ namespace Catalog.Api.V1.Controllers
         public async Task<ProductDto> Get(Guid id)
         {
             return await _mediator.Send(new ProductGetQuery { ProductId = id });
+        }
+
+        [HttpGet("export")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Get(string exportType)
+        {
+            var exporter = new DataExporterFactory().GetExporter(exportType);
+            if (exporter == null)
+            {
+                ModelState.AddModelError("ExportTye", string.Format(ErrorMessagesResource.InvalidExportTypeError, exportType));
+                var problemDetails = new ValidationProblemDetails(ModelState);
+                return BadRequest(problemDetails);
+            }
+
+            var products = await _mediator.Send(new ProductSearchQuery());
+            var export = exporter.Export(products);
+
+            return File(export.Stream, export.ContentType, export.FileName);
         }
 
         [HttpPost, Produces("application/json")]
