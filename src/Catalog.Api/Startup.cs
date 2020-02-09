@@ -8,13 +8,13 @@ using Catalog.Api.Middlewares;
 using Catalog.Api.Swagger;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Text.Json.Serialization;
 
 namespace Catalog.Api
 {
@@ -32,7 +32,10 @@ namespace Catalog.Api
         {
             services.AddDbContext<ProductDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllers();
+
+            services.AddControllers()
+                .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
             services.AddApiVersioning();
             services.AddVersionedApiExplorer(
                 options =>
@@ -48,6 +51,8 @@ namespace Catalog.Api
                     // add a custom operation filter which sets default values
                     options.OperationFilter<SwaggerDefaultValues>();
                     options.SchemaFilter<SwaggerExcludeFilter>();
+#pragma warning disable 0618
+                    options.DescribeAllEnumsAsStrings();
                 });
 
             services.AddMediatR(typeof(Startup).Assembly);
@@ -58,7 +63,7 @@ namespace Catalog.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
+        public void Configure(IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {
             app.UseApiExceptionHandling();
             app.UseHttpsRedirection();
