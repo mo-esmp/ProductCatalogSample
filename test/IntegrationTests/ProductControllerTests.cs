@@ -46,17 +46,16 @@ namespace IntegrationTests
         public async Task Create_Product_Returns_Ok()
         {
             // Arrange
-            var command = new ProductAddCommand
+            var formDataContent = new MultipartFormDataContent
             {
-                Code = "AB12",
-                Name = "Some Product",
-                Price = 9.99m,
-                CurrencyCode = CurrencyCode.Euro
+                { new StringContent("AB12", Encoding.UTF8),  nameof(ProductAddCommand.Code)},
+                { new StringContent("Some Product", Encoding.UTF8), nameof(ProductAddCommand.Name)},
+                { new StringContent("9.99", Encoding.UTF8), nameof(ProductAddCommand.Price) },
+                { new StringContent("Euro", Encoding.UTF8), nameof(ProductAddCommand.CurrencyCode) }
             };
-            var content = new StringContent(JsonSerializer.Serialize(command), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _client.PostAsync(ApiUrl, content);
+            var response = await _client.PostAsync(ApiUrl, formDataContent);
             var body = await response.Content.ReadAsStringAsync();
 
             // Assert
