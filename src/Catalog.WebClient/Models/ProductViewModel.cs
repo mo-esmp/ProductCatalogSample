@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 
 namespace Catalog.WebClient.Models
 {
@@ -13,6 +14,8 @@ namespace Catalog.WebClient.Models
         public decimal Price { get; set; }
 
         public string CurrencyCode { get; set; }
+
+        public IFormFile Photo { get; set; }
 
         public string PhotoUrl { get; set; }
     }

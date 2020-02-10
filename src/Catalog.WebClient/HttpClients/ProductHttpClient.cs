@@ -3,8 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Catalog.WebClient.HttpClients
@@ -21,7 +23,7 @@ namespace Catalog.WebClient.HttpClients
             _client.BaseAddress = new Uri(configuration["ProductApiUri"]);
         }
 
-        public async Task<IEnumerable<ProductViewModel>> GetProducts(string code = null, string name = null)
+        public async Task<IEnumerable<ProductViewModel>> GetProductsAsync(string code = null, string name = null)
         {
             var requestUrl = $"/api/v1/products?code={code}&name={name}";
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(JsonMediaType));
@@ -31,33 +33,28 @@ namespace Catalog.WebClient.HttpClients
             return products;
         }
 
-        //public async ValueTask<bool> SendFileMessageAsync(List<int> targetLocationIds, string fileName, MemoryStream fileContent)
-        //{
-        //        var request = FileMessageToDictionary(new PVModel());
+        public async Task<HttpResponseMessage> CreateProductAsync(ProductViewModel product)
+        {
+            var formDataContent = new MultipartFormDataContent
+            {
+                { new StringContent(product.Code, Encoding.UTF8),  nameof(ProductViewModel.Code)},
+                { new StringContent(product.Name, Encoding.UTF8), nameof(ProductViewModel.Name)},
+                { new StringContent(product.Price.ToString(), Encoding.UTF8), nameof(ProductViewModel.Price) },
+                { new StringContent("Euro", Encoding.UTF8), nameof(ProductViewModel.CurrencyCode) }
+            };
 
-        //        var content = new MultipartFormDataContent();
-        //        foreach (var (key, value) in request)
-        //            content.Add(new StringContent(value, Encoding.UTF8), key);
+            if (product.Photo != null && product.Photo.Length > 0)
+            {
+                var fileContent = new MemoryStream();
+                await product.Photo.CopyToAsync(fileContent);
+                fileContent.Position = 0;
+                formDataContent.Add(new StreamContent(fileContent), "photo", product.Photo.FileName);
+            }
 
-        //        fileContent.Position = 0;
-        //        content.Add(new StreamContent(fileContent), "file", fileName);
+            const string apiAddress = "/api/v1/products";
+            var response = await _client.PostAsync(apiAddress, formDataContent);
 
-        //        const string apiAddress = "/api/v1/products";
-        //        var response = await _client.PostAsync(apiAddress, content);
-
-        //        return response.IsSuccessStatusCode;
-        //}
-
-        //private IEnumerable<KeyValuePair<string, string>> FileMessageToDictionary(object request)
-        //{
-        //    var res = new List<KeyValuePair<string, string>>
-        //    {
-        //        new KeyValuePair<string, string>(nameof(ProductViewModel.Code), request.Code ?? "" ),
-        //        new KeyValuePair<string, string>(nameof(ProductViewModel.Name)), request.Name.ToString() ),
-        //        new KeyValuePair<string, string>(nameof(ProductViewModel.Price)), request.Price ?? "" ),
-        //    };
-
-        //    return res;
-        //}
+            return response;
+        }
     }
 }
