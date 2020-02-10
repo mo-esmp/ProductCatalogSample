@@ -13,6 +13,7 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace IntegrationTests
 {
+    [TestCaseOrderer("IntegrationTests.TestSetup.TestPriorityOrderer", "IntegrationTests")]
     public class ProductControllerTests : IClassFixture<TestingWebApplicationFactory<Startup>>
     {
         private const string ApiUrl = "/api/v1/products";
