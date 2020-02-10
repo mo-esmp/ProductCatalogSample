@@ -14,6 +14,9 @@ namespace IntegrationTests
                 Money.FromDecimal(10, CurrencyCode.Euro, new FixedCurrencyLookup()), null),
 
             new Product(Guid.NewGuid(), "67890", "Sample Product 2",
+                Money.FromDecimal(20, CurrencyCode.Euro, new FixedCurrencyLookup()), null),
+
+            new Product(Guid.NewGuid(), "10236", "Sample Product 3",
                 Money.FromDecimal(20, CurrencyCode.Euro, new FixedCurrencyLookup()), null)
         };
 

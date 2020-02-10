@@ -2,6 +2,7 @@ using Catalog.Api;
 using Catalog.Api.Domain.Shared;
 using Catalog.Api.V1.Commands;
 using IntegrationTests.TestSetup;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -22,7 +23,7 @@ namespace IntegrationTests
             _client = factory.CreateClient();
         }
 
-        [Fact]
+        [Fact, TestPriority(1)]
         public async Task Create_Duplicate_Product_Returns_Error()
         {
             // Arrange
@@ -42,7 +43,7 @@ namespace IntegrationTests
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
-        [Fact]
+        [Fact, TestPriority(1)]
         public async Task Create_Product_Returns_Ok()
         {
             // Arrange
@@ -63,7 +64,7 @@ namespace IntegrationTests
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }
 
-        [Fact]
+        [Fact, TestPriority(1)]
         public async Task Update_Product_With_Wrong_Id_Returns_Error()
         {
             // Arrange
@@ -77,19 +78,20 @@ namespace IntegrationTests
             var content = new StringContent(JsonSerializer.Serialize(command), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _client.PutAsync($"{ApiUrl}/100", content);
+            var response = await _client.PutAsync($"{ApiUrl}/{Guid.NewGuid()}", content);
+            var body = await response.Content.ReadAsStringAsync();
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
-        [Fact]
+        [Fact, TestPriority(1)]
         public async Task Update_Product_With_Duplicate_Code_Returns_Error()
         {
             // Arrange
             var command = new ProductEditCommand
             {
-                Code = InitialProductList.Products.Last().Code.Value,
+                Code = InitialProductList.Products.ElementAt(1).Code.Value,
                 Name = "Some Product",
                 Price = 9.99m,
                 CurrencyCode = CurrencyCode.Euro
@@ -99,11 +101,12 @@ namespace IntegrationTests
             // Act
             var response = await _client.PutAsync($"{ApiUrl}/{InitialProductList.Products.First().Id}", content);
             var body = await response.Content.ReadAsStringAsync();
+
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
-        [Fact]
+        [Fact, TestPriority(1)]
         public async Task Update_Product_Returns_Ok()
         {
             // Arrange
@@ -124,25 +127,25 @@ namespace IntegrationTests
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-        [Fact]
+        [Fact, TestPriority(1)]
         public async Task Delete_Product_With_Wrong_Id_Returns_Error()
         {
             // Arrange
 
             // Act
-            var response = await _client.DeleteAsync($"{ApiUrl}/100");
+            var response = await _client.DeleteAsync($"{ApiUrl}/{Guid.NewGuid()}");
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
-        [Fact]
+        [Fact, TestPriority(2)]
         public async Task Delete_Product_Returns_Ok()
         {
             // Arrange
 
             // Act
-            var response = await _client.DeleteAsync($"{ApiUrl}/{InitialProductList.Products.First().Id}");
+            var response = await _client.DeleteAsync($"{ApiUrl}/{InitialProductList.Products.Last().Id}");
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
